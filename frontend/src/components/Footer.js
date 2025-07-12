@@ -11,8 +11,10 @@ import {
   Modal,
 } from "react-bootstrap";
 import axios from "axios";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ContactUs() {
+  console.log(API_URL)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,7 +38,7 @@ export default function ContactUs() {
     e.preventDefault();
     try {
       // Replace this with your actual API endpoint
-      const response = await axios.post("http://localhost:5000/contactUs/add", formData);
+      const response = await axios.post(`${API_URL}/contactUs/add`, formData);
 
       if (response.status === 200) {
         setModalContent({

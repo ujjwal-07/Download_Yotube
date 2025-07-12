@@ -3,8 +3,10 @@ import { useState } from "react";
 import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
 import { toast } from "react-toastify";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function DownloadForm() {
+  console.log(API_URL)
   const [url, setUrl] = useState("");
   const [format, setFormat] = useState("mp4");
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ export default function DownloadForm() {
 
     try {
       // Make an API call to prepare the file
-      await axios.get("http://localhost:5000/api/download", {
+      await axios.get(`${API_URL}/api/download`, {
         params: {
           url: url,
           format: format,

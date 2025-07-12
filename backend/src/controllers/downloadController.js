@@ -1,4 +1,5 @@
 const ytdl = require('@distube/ytdl-core');
+const delay = ms => new Promise(res => setTimeout(res,ms));
 
 const downloadVideo = async (req,res)=>{
     console.log("here")
@@ -10,6 +11,7 @@ const downloadVideo = async (req,res)=>{
     }
 
     try{
+        await delay(1000);
         const info = await ytdl.getInfo(videoUrl);
         const title = info.videoDetails.title.replace(/[^\w\s]/gi, '')
 
