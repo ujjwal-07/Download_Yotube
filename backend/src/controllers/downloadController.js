@@ -5,74 +5,47 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 const downloadQueue = [];
 let isProcessingQueue = false; // Flag to ensure only one item is processed at a time
 
-// --- Function to process the queue ---
 const processQueue = async () => {
-    if (isProcessingQueue || downloadQueue.length === 0) {
-        return; // Already processing or nothing in queue
-    }
-
-    isProcessingQueue = true; // Set flag to indicate processing has started
+    // ... (rest of the function)
 
     while (downloadQueue.length > 0) {
-        const { req, res, attempt } = downloadQueue.shift(); // Get the next item from the queue
-
-        console.log(`Processing download for URL: ${req.query.url} (Attempt: ${attempt})`);
+        const { req, res, attempt } = downloadQueue.shift();
 
         try {
-            // Apply a delay before making the ytdl.getInfo call
-            // This is crucial for rate limiting. Experiment with this value.
-            await delay(3000); // 3 seconds delay between actual YouTube interactions
+            // Try a longer delay before ytdl.getInfo
+            await delay(7000); // Increased to 7 seconds
 
             const videoUrl = req.query.url;
             const format = req.query.format;
 
             const info = await ytdl.getInfo(videoUrl);
-            const title = info.videoDetails.title.replace(/[^\w\s]/gi, '');
-
-            res.header('Content-Disposition', `attachment; filename="${title}.${format}"`);
-
-            if (format === "mp3") {
-                ytdl(videoUrl, {
-                    format: 'mp3',
-                    quality: "highestaudio"
-                }).pipe(res);
-            } else {
-                ytdl(videoUrl, {
-                    format: format,
-                    quality: 'highest'
-                }).pipe(res);
-            }
-
-            // Note: res.end() or a similar signal isn't typically needed here
-            // because .pipe(res) will handle closing the response stream.
-            // If the client disconnects before the download starts,
-            // the piped stream might error, which would be caught by the outer try-catch.
+            // ... (rest of the try block)
 
         } catch (err) {
             console.error(`Error processing download for ${req.query.url}:`, err.message);
 
-            // Handle specific ytdl-core errors, like 429
-            if (err.statusCode === 429 || err.message.includes('Status code: 429')) {
+            if (err.statusCode === 429 || (err.message && err.message.includes('Status code: 429'))) {
                 console.warn(`Rate limit hit for ${req.query.url}. Re-queuing and adding more delay.`);
-                // If it's a 429, re-queue the request for a later attempt with increased delay
-                // Or you might want a max_attempts logic here.
-                if (attempt < 3) { // Limit retry attempts
-                    downloadQueue.unshift({ req, res, attempt: attempt + 1 }); // Add back to front of queue
-                    await delay(5000 * (attempt + 1)); // Exponential backoff for retry
+                if (attempt < 3) {
+                    downloadQueue.unshift({ req, res, attempt: attempt + 1 });
+                    // Exponential backoff for retry, even longer
+                    await delay(10000 * (attempt + 1)); // Increased base delay for retry
                 } else {
-                    res.status(500).json({ error: "Failed to download video after multiple attempts due to rate limiting." });
+                    if (!res.headersSent) {
+                        res.status(500).json({ error: "Failed to download video after multiple attempts due to persistent rate limiting." });
+                    }
                 }
             } else {
-                res.status(500).json({ error: "Failed to download video: " + err.message });
+                if (!res.headersSent) {
+                    res.status(500).json({ error: "Failed to download video: " + err.message });
+                }
             }
         }
-        // Add a delay between processing each item in the queue
-        // This is important to give YouTube's servers a break.
-        await delay(2000); // Wait 2 seconds before picking the next item
+        // Delay between processing each item in the queue
+        await delay(5000); // Increased to 5 seconds between items
     }
 
-    isProcessingQueue = false; // Reset flag after queue is empty
-    console.log("Queue processing finished.");
+    // ... (rest of the function)
 };
 
 
