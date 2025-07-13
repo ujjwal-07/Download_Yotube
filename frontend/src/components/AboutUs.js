@@ -36,7 +36,7 @@ export default function AboutUs() {
       {/* App Logo */}
       <div className="flex justify-center mb-10">
         <Image
-          src="/logo.png" // Replace with your logo path
+          src="/Logo.png" // Replace with your logo path
           alt="App Logo"
           width={100}
           height={100}
