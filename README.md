@@ -1,3 +1,9 @@
+ ---
+# ⚠️ Disclaimer
+This project is for educational purposes only. Downloading YouTube videos may violate YouTube’s Terms of Service.
+
+✅ Note: The live version may not support actual downloads due to API restrictions.  
+💻 However, you can clone this project and run it locally on your own system to explore how it works and learn.  
 
 ---
 
@@ -5,8 +11,8 @@
 
 A full-stack YouTube video and audio downloader with a sleek user interface.
 
-✅ Built with **Next.js** (frontend), **Node.js/Express** (backend), and **MongoDB Atlas** for persistent data storage.
-✅ Supports downloading YouTube content in **MP3** and **MP4** formats.
+✅ Built with **Next.js** (frontend), **Node.js/Express** (backend), and **MongoDB Atlas**  for persistent data storage.  
+✅ Supports downloading YouTube content in **MP3** and **MP4** formats.  
 ✅ Scalable deployment ready for high traffic.
 
 ---
@@ -62,7 +68,7 @@ A full-stack YouTube video and audio downloader with a sleek user interface.
    MONGODB_URI=your-mongodb-atlas-connection-string
    ```
 
-   Create a `.env.local` file in the **client** directory:
+   Create a `.env.local` file in the **client** directory and add your server URL:
 
    ```
    NEXT_PUBLIC_API_URL=https://your-backend-api-url.com
@@ -84,8 +90,7 @@ A full-stack YouTube video and audio downloader with a sleek user interface.
 
 ## 🚀 Live Demo
 
-🌐 **Frontend:** [LDU Downloader App](https://your-frontend.vercel.app)
-📡 **API:** [Backend API Endpoint](https://your-backend.onrender.com)
+🌐 **Frontend:** [LDU Downloader App](https://download-yotube.vercel.app/)
 
 ---
 

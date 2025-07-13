@@ -3,10 +3,11 @@ import { useState } from "react";
 import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
 import { toast } from "react-toastify";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// 👇 Using YouLink API directly
+const API_URL = "https://yt-api.vercel.app/api/info?url=YOUTUBE_URL";
 
 export default function DownloadForm() {
-  console.log(API_URL)
   const [url, setUrl] = useState("");
   const [format, setFormat] = useState("mp4");
   const [loading, setLoading] = useState(false);
@@ -29,21 +30,23 @@ export default function DownloadForm() {
     }, 8000); // 8 seconds
 
     try {
-      // Make an API call to prepare the file
-      await axios.get(`${API_URL}/api/download`, {
+      // 👇 Call public API directly
+      const response = await axios.get(`${API_URL}`, {
         params: {
           url: url,
           format: format,
         },
       });
 
-      // Show success toast only if API call was successful
-      toast.success("Your media will start downloading shortly");
+      if (response.data && response.data.downloadUrl) {
+        // Show success toast
+        toast.success("Your media will start downloading shortly");
 
-      // Trigger browser download
-      window.location.href = `http://localhost:5000/api/download?url=${encodeURIComponent(
-        url
-      )}&format=${encodeURIComponent(format)}`;
+        // Trigger browser download
+        window.location.href = response.data.downloadUrl;
+      } else {
+        toast.error("Failed to get a download link. Try again.");
+      }
     } catch (error) {
       console.error("Error preparing download:", error);
       toast.error("Failed to prepare download. Please try again.");
