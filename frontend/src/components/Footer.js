@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -14,7 +14,7 @@ import axios from "axios";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ContactUs() {
-  console.log(API_URL)
+  console.log(API_URL);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -150,6 +150,13 @@ export default function ContactUs() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Disclaimer */}
+      <div className="mt-5 text-center text-muted text-sm">
+        ⚠️ Due to API & hosting restrictions, contact form submissions may not work
+        on the hosted version. <br />
+        💻 Clone this project and run it locally for full functionality!
+      </div>
     </Container>
   );
 }
