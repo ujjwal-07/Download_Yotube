@@ -152,11 +152,11 @@ export default function ContactUs() {
       </Modal>
 
       {/* Disclaimer */}
-      <div className="mt-5 text-center text-muted text-sm">
-        ⚠️ Due to API & hosting restrictions, contact form submissions may not work
-        on the hosted version. <br />
-        💻 Clone this project and run it locally for full functionality!
-      </div>
+  <div className="mt-5 text-center text-muted text-lg">
+  ⚠️ Due to YouTube API & policy restrictions, video and audio downloads may not work on the hosted version. <br />
+  💻 Clone this project and run it locally to explore the full functionality for educational purposes.
+</div>
+
     </Container>
   );
 }
