@@ -23,7 +23,12 @@ const faqs = [
     question: "Why can’t I download some videos?",
     answer: "Some YouTube videos may have copyright restrictions or region locks that prevent downloading.",
   },
+  {
+    question: "Why is the YouTube downloader not working?",
+    answer: "Due to YouTube API and policy restrictions, the downloader may not work on the hosted version. You can clone this project and run it locally to explore full functionality for educational purposes.",
+  },
 ];
+
 
 export default function FAQs() {
   const [openIndex, setOpenIndex] = useState(null);
